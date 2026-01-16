@@ -1,0 +1,41 @@
+let currentUser=null;
+
+function login(){
+ const u=user.value.trim();
+ const p=pass.value.trim();
+ if(!u||!p){msg.textContent="Preencha tudo";return;}
+
+ const data=localStorage.getItem("acc_"+u);
+
+ if(data){
+  const acc=JSON.parse(data);
+  if(acc.pass!==p){msg.textContent="Senha errada";return;}
+  loadAcc(acc);
+ }else{
+  const acc={
+   user:u,pass:p,
+   level:1,xp:0,dimension:1,fruit:"Nenhuma"
+  };
+  localStorage.setItem("acc_"+u,JSON.stringify(acc));
+  loadAcc(acc);
+ }
+}
+
+function loadAcc(acc){
+ currentUser=acc.user;
+ level=acc.level;
+ xp=acc.xp;
+ dimension=acc.dimension;
+ fruit=acc.fruit;
+ login.style.display="none";
+}
+
+function saveAcc(){
+ if(!currentUser)return;
+ const acc={
+  user:currentUser,
+  pass:pass.value,
+  level,xp,dimension,fruit
+ };
+ localStorage.setItem("acc_"+currentUser,JSON.stringify(acc));
+}
